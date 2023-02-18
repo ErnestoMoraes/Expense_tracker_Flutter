@@ -74,13 +74,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void save() {
-    String amountEC = '${dollarEC.text}.${centsEC.text}';
+   if(nameEC.text.isNotEmpty && dollarEC.text.isNotEmpty && centsEC.text.isNotEmpty) {
+     String amountEC = '${dollarEC.text}.${centsEC.text}';
     ExpenseItem newExpense = ExpenseItem(
       name: nameEC.text,
       amount: amountEC,
       dateTime: DateTime.now(),
     );
     Provider.of<ExpenseData>(context, listen: false).addNewExpense(newExpense);
+   }
     Navigator.pop(context);
     clearControllers();
   }
@@ -108,10 +110,8 @@ class _HomePageState extends State<HomePage> {
           ),
           body: ListView(
             children: [
-              
               ExpenseSumary(startOfWeek: value.startOfWeekDate()),
               const SizedBox(height: 20),
-              
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -120,6 +120,8 @@ class _HomePageState extends State<HomePage> {
                   name: value.getAllExpanseList()[index].name,
                   amount: value.getAllExpanseList()[index].amount,
                   dateTime: value.getAllExpanseList()[index].dateTime,
+                  deleteTapped: (p0) =>
+                      deleteExpanse(value.getAllExpanseList()[index]),
                 ),
               ),
             ],
