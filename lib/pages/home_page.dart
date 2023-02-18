@@ -1,3 +1,4 @@
+import 'package:expense_tracker/components/expense_tile.dart';
 import 'package:expense_tracker/data/expanse_data.dart';
 import 'package:expense_tracker/expense/expense_item.dart';
 import 'package:flutter/material.dart';
@@ -74,11 +75,22 @@ class _HomePageState extends State<HomePage> {
             onPressed: addNewExpense,
             child: const Icon(Icons.add),
           ),
-          body: ListView.builder(
-            itemCount: value.getAllExpanseList().length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text(value.getAllExpanseList()[index].name),
-            ),
+          body: ListView(
+            children: [
+             // week summary
+
+              // expense list
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: value.getAllExpanseList().length,
+                itemBuilder: (context, index) => ExpenseTile(
+                  name: value.getAllExpanseList()[index].name,
+                  amount: value.getAllExpanseList()[index].amount,
+                  dateTime: value.getAllExpanseList()[index].dateTime,
+                ),
+              ),
+            ],
           )),
     );
   }
