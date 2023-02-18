@@ -16,6 +16,12 @@ class _HomePageState extends State<HomePage> {
   final nameEC = TextEditingController();
   final dollarEC = TextEditingController();
   final centsEC = TextEditingController();
+  
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<ExpanseData>(context, listen: false).prepareData();
+  }
 
   void addNewExpense() {
     showDialog(

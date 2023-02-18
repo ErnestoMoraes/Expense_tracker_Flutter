@@ -1,3 +1,4 @@
+import 'package:expense_tracker/data/hive_database.dart';
 import 'package:expense_tracker/datetime/date_time_helper.dart';
 import 'package:expense_tracker/expense/expense_item.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,23 @@ class ExpanseData extends ChangeNotifier {
     return overallExpenseList;
   }
 
+  final db = HiveDatabase();
+  void prepareData() {
+    if (db.readData().isNotEmpty) {
+      overallExpenseList = db.readData();
+    }
+  }
+
   void addNewExpense(ExpenseItem newExpense) {
     overallExpenseList.add(newExpense);
     notifyListeners();
+    db.saveData(overallExpenseList);
   }
 
   void deleteExpanse(ExpenseItem expense) {
     overallExpenseList.remove(expense);
     notifyListeners();
+    db.saveData(overallExpenseList);
   }
 
   String getDayName(DateTime dateTime) {
@@ -44,7 +54,7 @@ class ExpanseData extends ChangeNotifier {
     DateTime? startOfWeek;
     DateTime today = DateTime.now();
     for (int i = 0; i < 7; i++) {
-      if(getDayName(today.subtract(Duration(days: i))) == 'sun') {
+      if (getDayName(today.subtract(Duration(days: i))) == 'sun') {
         startOfWeek = today.subtract(Duration(days: i));
       }
     }
