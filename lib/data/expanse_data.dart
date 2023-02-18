@@ -40,6 +40,17 @@ class ExpanseData extends ChangeNotifier {
     }
   }
 
+  DateTime startOfWeekDate() {
+    DateTime? startOfWeek;
+    DateTime today = DateTime.now();
+    for (int i = 0; i < 7; i++) {
+      if(getDayName(today.subtract(Duration(days: i))) == 'sun') {
+        startOfWeek = today.subtract(Duration(days: i));
+      }
+    }
+    return startOfWeek ?? DateTime.now();
+  }
+
   Map<String, double> calculateDailyExpenseSummary() {
     Map<String, double> dailyExpenseSummary = {
       // date (yyyymmdd) : amountTotalForDay
