@@ -16,11 +16,11 @@ class _HomePageState extends State<HomePage> {
   final nameEC = TextEditingController();
   final dollarEC = TextEditingController();
   final centsEC = TextEditingController();
-  
+
   @override
   void initState() {
     super.initState();
-    Provider.of<ExpanseData>(context, listen: false).prepareData();
+    Provider.of<ExpenseData>(context, listen: false).prepareData();
   }
 
   void addNewExpense() {
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
       amount: amountEC,
       dateTime: DateTime.now(),
     );
-    Provider.of<ExpanseData>(context, listen: false).addNewExpense(newExpense);
+    Provider.of<ExpenseData>(context, listen: false).addNewExpense(newExpense);
     Navigator.pop(context);
     clearControllers();
   }
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExpanseData>(
+    return Consumer<ExpenseData>(
       builder: (context, value, child) => Scaffold(
           backgroundColor: Colors.grey[300],
           floatingActionButton: FloatingActionButton(

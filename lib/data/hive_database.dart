@@ -23,8 +23,8 @@ class HiveDatabase {
 
     for (int i = 0; i < savedExpenses.length; i++) {
       String name = savedExpenses[i][0];
-      String amount = savedExpenses[i][0];
-      DateTime dateTime = savedExpenses[i][0];
+      String amount = savedExpenses[i][1];
+      DateTime dateTime = savedExpenses[i][2];
 
       ExpenseItem expense = ExpenseItem(
         name: name,
@@ -37,5 +37,5 @@ class HiveDatabase {
     return allExpenses;
   }
 
-  
+
 }
