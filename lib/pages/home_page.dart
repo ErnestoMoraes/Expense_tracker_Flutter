@@ -69,6 +69,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void deleteExpanse(ExpenseItem expenseItem) {
+    Provider.of<ExpenseData>(context, listen: false).deleteExpanse(expenseItem);
+  }
+
   void save() {
     String amountEC = '${dollarEC.text}.${centsEC.text}';
     ExpenseItem newExpense = ExpenseItem(
@@ -104,10 +108,10 @@ class _HomePageState extends State<HomePage> {
           ),
           body: ListView(
             children: [
-              // week summary
+              
               ExpenseSumary(startOfWeek: value.startOfWeekDate()),
               const SizedBox(height: 20),
-              // expense list
+              
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
