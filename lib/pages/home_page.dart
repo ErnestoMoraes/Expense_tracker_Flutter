@@ -14,7 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final nameEC = TextEditingController();
-  final amountEC = TextEditingController();
+  final dollarEC = TextEditingController();
+  final centsEC = TextEditingController();
 
   void addNewExpense() {
     showDialog(
@@ -26,9 +27,25 @@ class _HomePageState extends State<HomePage> {
           children: [
             TextField(
               controller: nameEC,
+              decoration: const InputDecoration(hintText: 'Expense name'),
             ),
-            TextField(
-              controller: amountEC,
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: dollarEC,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(hintText: 'Dollars'),
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: centsEC,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(hintText: 'Cents'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -47,9 +64,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void save() {
+    String amountEC = '${dollarEC.text}.${centsEC.text}';
     ExpenseItem newExpense = ExpenseItem(
       name: nameEC.text,
-      amount: amountEC.text,
+      amount: amountEC,
       dateTime: DateTime.now(),
     );
     Provider.of<ExpanseData>(context, listen: false).addNewExpense(newExpense);
@@ -64,7 +82,8 @@ class _HomePageState extends State<HomePage> {
 
   void clearControllers() {
     nameEC.clear();
-    amountEC.clear();
+    dollarEC.clear();
+    centsEC.clear();
   }
 
   @override
@@ -74,12 +93,14 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.grey[300],
           floatingActionButton: FloatingActionButton(
             onPressed: addNewExpense,
+            backgroundColor: Colors.black,
             child: const Icon(Icons.add),
           ),
           body: ListView(
             children: [
-             // week summary
+              // week summary
               ExpenseSumary(startOfWeek: value.startOfWeekDate()),
+              const SizedBox(height: 20),
               // expense list
               ListView.builder(
                 shrinkWrap: true,
