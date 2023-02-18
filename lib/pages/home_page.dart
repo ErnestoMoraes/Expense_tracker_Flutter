@@ -1,4 +1,7 @@
+import 'package:expense_tracker/data/expanse_data.dart';
+import 'package:expense_tracker/expense/expense_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           MaterialButton(
             onPressed: save,
-            child:const  Text('Save'),
+            child: const Text('Save'),
           ),
           MaterialButton(
             onPressed: cancel,
@@ -41,22 +44,42 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void save() {}
-  void cancel() {}
+  void save() {
+    ExpenseItem newExpense = ExpenseItem(
+      name: nameEC.text,
+      amount: amountEC.text,
+      dateTime: DateTime.now(),
+    );
+    Provider.of<ExpanseData>(context, listen: false).addNewExpense(newExpense);
+    Navigator.pop(context);
+    clearControllers();
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+    clearControllers();
+  }
+
+  void clearControllers() {
+    nameEC.clear();
+    amountEC.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense Tracker'),
-        centerTitle: true,
-      ),
-      body: Container(),
-      backgroundColor: Colors.grey[300],
-      floatingActionButton: FloatingActionButton(
-        onPressed: addNewExpense,
-        child: const Icon(Icons.add),
-      ),
+    return Consumer<ExpanseData>(
+      builder: (context, value, child) => Scaffold(
+          backgroundColor: Colors.grey[300],
+          floatingActionButton: FloatingActionButton(
+            onPressed: addNewExpense,
+            child: const Icon(Icons.add),
+          ),
+          body: ListView.builder(
+            itemCount: value.getAllExpanseList().length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(value.getAllExpanseList()[index].name),
+            ),
+          )),
     );
   }
 }
