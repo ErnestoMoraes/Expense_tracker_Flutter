@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox('expense_database');
+  await Hive.openBox('expense_database2');
   runApp(const MyApp());
 }
 

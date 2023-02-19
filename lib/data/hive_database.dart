@@ -2,7 +2,7 @@ import 'package:expense_tracker/expense/expense_item.dart';
 import 'package:hive/hive.dart';
 
 class HiveDatabase {
-  final _myBox = Hive.box('expense_database');
+  final _myBox = Hive.box('expense_database2');
 
   void saveData(List<ExpenseItem> allExpense) {
     List<List<dynamic>> allExpensesFormatted = [];
